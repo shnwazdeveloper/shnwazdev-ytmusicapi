@@ -4,7 +4,7 @@
   "cleanUrls": true,
   "functions": {
     "api/ytmusic.py": {
-      "maxDuration": 30,
+      "maxDuration": 60,
       "excludeFiles": "{tests/**,docs/**,.venv/**,**/*.log,**/*.xml}"
     }
   },
