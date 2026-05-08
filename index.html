@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Realtime YouTube Music trending songs powered by shnwazdev-ytmusicapi."
+      content="Light landing page for realtime YouTube Music trending songs powered by shnwazdev-ytmusicapi."
     />
     <title>shnwazdev-ytmusicapi</title>
     <link rel="stylesheet" href="/styles.css" />
@@ -22,9 +22,90 @@
         </a>
 
         <nav class="nav-links" aria-label="Main navigation">
-          <a href="/">Live</a>
+          <a href="#live">Live</a>
           <a href="/docs.html">Docs</a>
         </nav>
+      </header>
+
+      <section class="landing-hero">
+        <article class="landing-copy">
+          <p class="eyebrow">Live music data</p>
+          <h1>Limit-free YouTube Music API for realtime trends.</h1>
+          <p class="hero-lede">
+            A clean light interface for realtime country charts, search, playlist, artist, album, mood, and lyrics
+            endpoints.
+          </p>
+
+          <div class="hero-actions">
+            <a class="primary-link" href="#live">View live chart</a>
+            <a class="secondary-link" href="/docs.html">Read API docs</a>
+          </div>
+
+          <div class="signal-row" aria-label="Endpoint highlights">
+            <span>16 endpoints</span>
+            <span>No default limit</span>
+            <span>Vercel live</span>
+          </div>
+        </article>
+
+        <article class="hero-stage glass-panel" aria-labelledby="now-title">
+          <div class="hero-stage-header">
+            <span class="status-pill">
+              <span class="pulse-dot" aria-hidden="true"></span>
+              <span id="status" aria-live="polite">Connecting</span>
+            </span>
+            <div class="motion-bars" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="hero-track">
+            <div class="cover-frame">
+              <img id="now-cover" alt="" />
+              <div class="cover-fallback" id="cover-fallback">YT</div>
+            </div>
+            <div class="now-copy">
+              <p class="eyebrow">Live chart leader</p>
+              <h2 id="now-title">Realtime YouTube Music Trending Songs</h2>
+              <p class="now-artists" id="now-artists">Loading live songs...</p>
+              <a class="listen-link" id="listen-link" href="https://music.youtube.com" target="_blank" rel="noreferrer">
+                Open track
+              </a>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="metrics-grid" aria-label="Live API status">
+        <div class="metric-card glass-panel">
+          <span>Songs</span>
+          <strong id="song-count">--</strong>
+        </div>
+        <div class="metric-card glass-panel">
+          <span>Region</span>
+          <strong id="region-label">--</strong>
+        </div>
+        <div class="metric-card glass-panel">
+          <span>Updated</span>
+          <strong id="updated-at">--</strong>
+        </div>
+        <div class="metric-card glass-panel">
+          <span>Playlist</span>
+          <strong id="playlist-id">--</strong>
+        </div>
+      </section>
+
+      <section class="live-panel glass-panel" id="live" aria-labelledby="songs-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Live explorer</p>
+            <h2 id="songs-title">Trending Songs</h2>
+          </div>
+          <p class="result-note" id="result-note">Fresh from YouTube Music</p>
+        </div>
 
         <form class="toolbar" id="controls">
           <label class="field">
@@ -51,68 +132,6 @@
             <span>Refresh</span>
           </button>
         </form>
-      </header>
-
-      <section class="hero-grid">
-        <article class="now-card glass-panel" aria-labelledby="now-title">
-          <div class="now-copy">
-            <p class="eyebrow">Live chart leader</p>
-            <h1 id="now-title">Realtime YouTube Music Trending Songs</h1>
-            <p class="now-artists" id="now-artists">Loading live songs...</p>
-
-            <div class="now-actions">
-              <a class="listen-link" id="listen-link" href="https://music.youtube.com" target="_blank" rel="noreferrer">
-                Open track
-              </a>
-              <div class="motion-bars" aria-hidden="true">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="cover-frame">
-            <img id="now-cover" alt="" />
-            <div class="cover-fallback" id="cover-fallback">YT</div>
-          </div>
-        </article>
-
-        <aside class="stats-panel glass-panel" aria-label="Trending feed status">
-          <div class="status-row">
-            <span class="pulse-dot" aria-hidden="true"></span>
-            <span id="status" aria-live="polite">Connecting</span>
-          </div>
-          <dl class="stats-grid">
-            <div>
-              <dt>Songs</dt>
-              <dd id="song-count">--</dd>
-            </div>
-            <div>
-              <dt>Region</dt>
-              <dd id="region-label">--</dd>
-            </div>
-            <div>
-              <dt>Updated</dt>
-              <dd id="updated-at">--</dd>
-            </div>
-            <div>
-              <dt>Playlist</dt>
-              <dd id="playlist-id">--</dd>
-            </div>
-          </dl>
-        </aside>
-      </section>
-
-      <section class="list-shell glass-panel" aria-labelledby="songs-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Trending now</p>
-            <h2 id="songs-title">Songs</h2>
-          </div>
-          <p class="result-note" id="result-note">Fresh from YouTube Music</p>
-        </div>
 
         <div class="song-list" id="song-list" aria-live="polite"></div>
         <div class="empty-state" id="empty-state" hidden>No matching songs.</div>

@@ -76,9 +76,18 @@ function renderHero(song) {
   elements.listenLink.href = hasSong && song.youtubeMusicUrl ? song.youtubeMusicUrl : "https://music.youtube.com";
   elements.listenLink.setAttribute("aria-disabled", hasSong ? "false" : "true");
 
-  elements.nowCover.classList.toggle("has-art", Boolean(cover));
+  elements.nowCover.classList.remove("has-art");
+  elements.nowCover.onload = () => elements.nowCover.classList.add("has-art");
+  elements.nowCover.onerror = () => {
+    elements.nowCover.classList.remove("has-art");
+    elements.nowCover.removeAttribute("src");
+  };
+
   if (cover) {
     elements.nowCover.src = cover;
+    if (elements.nowCover.complete && elements.nowCover.naturalWidth > 0) {
+      elements.nowCover.classList.add("has-art");
+    }
   } else {
     elements.nowCover.removeAttribute("src");
   }
