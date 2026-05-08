@@ -77,11 +77,25 @@ ENDPOINTS = [
         "example": "/api/song?id=0KYJPoGJcMc",
     },
     {
+        "name": "song_related",
+        "path": "/api/song_related",
+        "params": "id",
+        "description": "Related music sections from a song related browse id.",
+        "example": "/api/song_related?id=MPRE...",
+    },
+    {
         "name": "album",
         "path": "/api/album",
         "params": "id",
         "description": "Album metadata and tracks.",
         "example": "/api/album?id=MPREb_...",
+    },
+    {
+        "name": "album_browse_id",
+        "path": "/api/album_browse_id",
+        "params": "id",
+        "description": "Resolve an album browse id from an audio playlist id.",
+        "example": "/api/album_browse_id?id=OLAK5uy_...",
     },
     {
         "name": "artist",

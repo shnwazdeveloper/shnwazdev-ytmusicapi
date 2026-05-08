@@ -3,11 +3,77 @@
   "framework": null,
   "cleanUrls": true,
   "functions": {
-    "api/**/*.py": {
+    "api/ytmusic.py": {
       "maxDuration": 30,
       "excludeFiles": "{tests/**,docs/**,.venv/**,**/*.log,**/*.xml}"
     }
   },
+  "rewrites": [
+    {
+      "source": "/api/trending",
+      "destination": "/api/ytmusic?method=trending"
+    },
+    {
+      "source": "/api/search",
+      "destination": "/api/ytmusic?method=search"
+    },
+    {
+      "source": "/api/suggestions",
+      "destination": "/api/ytmusic?method=suggestions"
+    },
+    {
+      "source": "/api/charts",
+      "destination": "/api/ytmusic?method=charts"
+    },
+    {
+      "source": "/api/playlist",
+      "destination": "/api/ytmusic?method=playlist"
+    },
+    {
+      "source": "/api/song",
+      "destination": "/api/ytmusic?method=song"
+    },
+    {
+      "source": "/api/song_related",
+      "destination": "/api/ytmusic?method=song_related"
+    },
+    {
+      "source": "/api/album",
+      "destination": "/api/ytmusic?method=album"
+    },
+    {
+      "source": "/api/album_browse_id",
+      "destination": "/api/ytmusic?method=album_browse_id"
+    },
+    {
+      "source": "/api/artist",
+      "destination": "/api/ytmusic?method=artist"
+    },
+    {
+      "source": "/api/artist_albums",
+      "destination": "/api/ytmusic?method=artist_albums"
+    },
+    {
+      "source": "/api/lyrics",
+      "destination": "/api/ytmusic?method=lyrics"
+    },
+    {
+      "source": "/api/moods",
+      "destination": "/api/ytmusic?method=moods"
+    },
+    {
+      "source": "/api/mood_playlists",
+      "destination": "/api/ytmusic?method=mood_playlists"
+    },
+    {
+      "source": "/api/explore",
+      "destination": "/api/ytmusic?method=explore"
+    },
+    {
+      "source": "/api/endpoints",
+      "destination": "/api/ytmusic?method=endpoints"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
