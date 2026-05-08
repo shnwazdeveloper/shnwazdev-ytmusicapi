@@ -5,12 +5,12 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
-from api.trending import _load_trending, _normalize_country, _parse_limit
+from ytmusic_endpoint import execute_endpoint, json_default
 
 
 class DevHandler(SimpleHTTPRequestHandler):
     def _send_json(self, status: int, payload: dict) -> None:
-        body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+        body = json.dumps(payload, ensure_ascii=False, default=json_default).encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Cache-Control", "no-store, max-age=0")
@@ -22,28 +22,29 @@ class DevHandler(SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_OPTIONS(self) -> None:
-        if self.path.startswith("/api/trending"):
+        if self.path.startswith("/api/"):
             self._send_json(204, {})
             return
 
         super().do_OPTIONS()
 
     def do_GET(self) -> None:
-        if self.path.startswith("/api/trending"):
-            query = parse_qs(urlparse(self.path).query)
+        parsed_url = urlparse(self.path)
+        if parsed_url.path.startswith("/api/"):
+            query = parse_qs(parsed_url.query)
+            endpoint = parsed_url.path.removeprefix("/api/").strip("/") or "ytmusic"
 
             try:
-                country = _normalize_country(query.get("country", [None])[0])
-                limit = _parse_limit(query.get("limit", [None])[0])
-                self._send_json(200, _load_trending(country, limit))
+                self._send_json(200, execute_endpoint(endpoint, query))
             except ValueError as exc:
-                self._send_json(400, {"ok": False, "error": str(exc)})
+                self._send_json(400, {"ok": False, "endpoint": endpoint, "error": str(exc)})
             except Exception as exc:
                 self._send_json(
                     502,
                     {
                         "ok": False,
-                        "error": "Unable to load YouTube Music trending songs right now.",
+                        "endpoint": endpoint,
+                        "error": "Unable to load YouTube Music data right now.",
                         "details": str(exc),
                     },
                 )

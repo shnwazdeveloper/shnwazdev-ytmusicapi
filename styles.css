@@ -144,6 +144,31 @@ a {
   align-items: end;
 }
 
+.nav-links {
+  display: inline-flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius);
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+}
+
 .field {
   display: grid;
   gap: 6px;
@@ -532,6 +557,74 @@ h1 {
   text-align: center;
 }
 
+.docs-shell {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.docs-hero {
+  padding: 24px;
+}
+
+.docs-hero h1 {
+  max-width: 15ch;
+  font-size: 3.1rem;
+}
+
+.docs-hero p {
+  max-width: 72ch;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.endpoint-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.endpoint-card {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.endpoint-card h2 {
+  margin: 0;
+  font-size: 1.08rem;
+}
+
+.endpoint-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.endpoint-card code,
+.docs-code {
+  display: block;
+  overflow-x: auto;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.24);
+  color: #f5e8da;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: 0.84rem;
+  white-space: nowrap;
+}
+
+.docs-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -586,6 +679,10 @@ h1 {
     grid-template-columns: 1fr 1fr auto;
   }
 
+  .nav-links {
+    margin-left: 0;
+  }
+
   .cover-frame {
     width: 220px;
     margin: 0;
@@ -611,6 +708,10 @@ h1 {
   }
 
   .toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .endpoint-grid {
     grid-template-columns: 1fr;
   }
 

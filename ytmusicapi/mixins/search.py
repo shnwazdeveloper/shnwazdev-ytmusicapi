@@ -11,7 +11,7 @@ class SearchMixin(MixinProtocol):
         query: str,
         filter: str | None = None,
         scope: str | None = None,
-        limit: int = 20,
+        limit: int | None = None,
         ignore_spelling: bool = False,
     ) -> JsonList:
         """
@@ -26,8 +26,7 @@ class SearchMixin(MixinProtocol):
             Changing scope from the default will reduce the number of settable filters. Setting a filter that is not permitted will throw an exception.
             For uploads, no filter can be set.
             For library, community_playlists and featured_playlists filter cannot be set.
-        :param limit: Number of search results to return
-          Default: 20
+        :param limit: Number of search results to return. ``None`` retrieves them all.
         :param ignore_spelling: Whether to ignore YTM spelling suggestions.
           If True, the exact search term will be searched for, and will not be corrected.
           This does not have any effect when the filter is set to ``uploads``.
@@ -254,7 +253,7 @@ class SearchMixin(MixinProtocol):
                     get_continuations(
                         res["musicShelfRenderer"],
                         "musicShelfContinuation",
-                        limit - len(search_results),
+                        None if limit is None else limit - len(search_results),
                         request_func,
                         parse_func,
                     )

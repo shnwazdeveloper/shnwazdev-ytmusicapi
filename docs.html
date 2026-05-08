@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="API documentation for shnwazdev-ytmusicapi endpoints." />
+    <title>API Docs - shnwazdev-ytmusicapi</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar glass-panel">
+        <a class="brand" href="/" aria-label="shnwazdev ytmusicapi home">
+          <span class="brand-mark">YT</span>
+          <span>
+            <span class="brand-title">shnwazdev-ytmusicapi</span>
+            <span class="brand-subtitle">Endpoint docs</span>
+          </span>
+        </a>
+
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="/">Live</a>
+          <a href="/docs.html">Docs</a>
+        </nav>
+      </header>
+
+      <section class="docs-shell">
+        <article class="docs-hero glass-panel">
+          <p class="eyebrow">Limit-free defaults</p>
+          <h1>YT Music API Endpoints</h1>
+          <p>
+            These endpoints return JSON from YouTube Music through ytmusicapi. They do not apply a default item cap:
+            each route asks for every available item that YouTube Music exposes for that request.
+          </p>
+          <code class="docs-code">GET /api/ytmusic?method=search&amp;q=arijit%20singh&amp;filter=songs</code>
+        </article>
+
+        <section class="list-shell glass-panel" aria-labelledby="rules-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Behavior</p>
+              <h2 id="rules-title">No Default Limit</h2>
+            </div>
+          </div>
+          <ul class="docs-list">
+            <li>Search, playlist, artist album, and trending endpoints request all available items by default.</li>
+            <li>The website search box filters the full returned list, not a shortened preview.</li>
+            <li>Use <code>country=IN</code>, <code>country=US</code>, or <code>country=GLOBAL</code> where supported.</li>
+            <li>All successful responses include <code>ok</code>, <code>endpoint</code>, and <code>updatedAt</code>.</li>
+          </ul>
+        </section>
+
+        <section class="list-shell glass-panel" aria-labelledby="endpoints-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Routes</p>
+              <h2 id="endpoints-title">Working Endpoints</h2>
+            </div>
+            <p class="result-note">Use the examples directly</p>
+          </div>
+
+          <div class="endpoint-grid">
+            <article class="endpoint-card">
+              <h2>Trending</h2>
+              <p>Country trending playlist, all songs returned by the playlist.</p>
+              <code>/api/trending?country=IN</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Search</h2>
+              <p>Search catalog items. Filters include songs, videos, albums, artists, playlists, podcasts, and episodes.</p>
+              <code>/api/search?q=arijit%20singh&amp;filter=songs</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Suggestions</h2>
+              <p>Search suggestions for a query.</p>
+              <code>/api/suggestions?q=alone</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Charts</h2>
+              <p>Chart playlists and ranked artists for a country.</p>
+              <code>/api/charts?country=IN</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Playlist</h2>
+              <p>Playlist metadata with all available tracks.</p>
+              <code>/api/playlist?id=OLAK5uy_lSTp1DIuzZBUyee3kDsXwPgP25WdfwB40</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Song</h2>
+              <p>Song or video metadata from a video id.</p>
+              <code>/api/song?id=0KYJPoGJcMc</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Song Related</h2>
+              <p>Related songs, playlists, albums, and artist sections from a related browse id.</p>
+              <code>/api/song_related?id=MPRE...</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Album</h2>
+              <p>Album metadata and tracks from an album browse id.</p>
+              <code>/api/album?id=MPREb_...</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Album Browse ID</h2>
+              <p>Resolve an album browse id from an audio playlist id.</p>
+              <code>/api/album_browse_id?id=OLAK5uy_...</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Artist</h2>
+              <p>Artist profile, releases, songs, and browse tokens.</p>
+              <code>/api/artist?id=UCDxKh1gFWeYsqePvgVzmPoQ</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Artist Albums</h2>
+              <p>All artist albums from the params token returned by the artist endpoint.</p>
+              <code>/api/artist_albums?id=UC...&amp;params=...</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Lyrics</h2>
+              <p>Lyrics from a lyrics browse id. Add timestamps=true for timed lyrics when available.</p>
+              <code>/api/lyrics?id=MPLYt_...&amp;timestamps=true</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Moods</h2>
+              <p>All mood and genre categories.</p>
+              <code>/api/moods</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Mood Playlists</h2>
+              <p>Playlists for a mood params token returned by /api/moods.</p>
+              <code>/api/mood_playlists?params=ggM...</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Explore</h2>
+              <p>Raw explore feed from YouTube Music.</p>
+              <code>/api/explore</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Generic Dispatcher</h2>
+              <p>Call any listed endpoint through one route with method=endpoint_name.</p>
+              <code>/api/ytmusic?method=search&amp;q=arijit%20singh&amp;filter=songs</code>
+            </article>
+            <article class="endpoint-card">
+              <h2>Endpoint Index</h2>
+              <p>Machine-readable endpoint list for apps and docs.</p>
+              <code>/api/endpoints</code>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

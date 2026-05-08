@@ -156,7 +156,6 @@ async function loadTrending({ silent = false } = {}) {
   state.request = controller;
   const params = new URLSearchParams({
     country: elements.country.value,
-    limit: "24",
     t: String(Date.now()),
   });
 

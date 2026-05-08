@@ -47,7 +47,7 @@ Features
 
 * get moods and genres playlists
 * get latest charts (globally and per country)
-* get current trending songs from the YouTube Music explore feed
+* get current trending songs from the YouTube Music charts feed
 
 | **Library management**:
 
@@ -112,8 +112,11 @@ Realtime website
 
 This fork includes a Vercel-ready website and JSON endpoint for live YouTube Music trending songs.
 
-* ``/api/trending?country=IN&limit=24`` returns the current trending song feed.
-* ``index.html`` renders a clean glass interface with region filtering and live refresh.
+* ``/api/trending?country=IN`` returns the full current trending song feed.
+* ``/api/search?q=arijit%20singh&filter=songs`` returns uncapped filtered search results.
+* ``/api/ytmusic?method=search&q=arijit%20singh&filter=songs`` provides a generic endpoint dispatcher.
+* ``docs.html`` lists the public endpoints and examples.
+* ``index.html`` renders a clean glass interface with region filtering, full-list search, and live refresh.
 
 .. end-features
 

@@ -8,11 +8,11 @@ class TestExplore:
         assert len(playlists) > 0
 
     def test_get_trending_songs(self, yt):
-        trending = yt.get_trending_songs(country="IN", limit=5)
+        trending = yt.get_trending_songs(country="IN")
 
         assert trending["playlist"]
         assert trending["title"]
-        assert 0 < len(trending["items"]) <= 5
+        assert len(trending["items"]) > 0
 
         for item in trending["items"]:
             assert item["videoId"], item

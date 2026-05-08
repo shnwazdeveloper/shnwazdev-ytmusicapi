@@ -88,7 +88,7 @@ class ExploreMixin(MixinProtocol):
 
         return playlists
 
-    def get_trending_songs(self, country: str = "ZZ", limit: int | None = 20) -> JsonDict:
+    def get_trending_songs(self, country: str = "ZZ", limit: int | None = None) -> JsonDict:
         """
         Get the current YouTube Music trending songs feed.
 
@@ -96,7 +96,7 @@ class ExploreMixin(MixinProtocol):
         live trending songs playlist for a country.
 
         :param country: ISO 3166-1 Alpha-2 country code. Default: ``ZZ`` = Global.
-        :param limit: Optional maximum number of songs to return. Default: 20.
+        :param limit: Optional maximum number of songs to return. ``None`` retrieves them all.
         :return: Dictionary containing the trending playlist id, title, and song items.
 
         """

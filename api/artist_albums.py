@@ -3,4 +3,4 @@ from ytmusic_endpoint import EndpointHandler
 
 
 class handler(EndpointHandler):
-    endpoint = "trending"
+    endpoint = "artist_albums"
