@@ -2,29 +2,28 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: ''
-assignees: ''
+labels: bug
+assignees: shnwazdeveloper
 
 ---
 
-- [ ] I confirm that I have read the [FAQ](https://ytmusicapi.readthedocs.io/en/stable/faq.html#why-is-ytmusicapi-returning-more-results-than-requested-with-the-limit-parameter)
+- [ ] I checked the live docs at https://shnwazdev-ytmusicapi.vercel.app/docs.html
 
 **Describe the bug**
 
 A clear and concise description of what the bug is.
 
-**ytmusicapi version**
+**Affected area**
 
-x.x.x
+Website, API endpoint, or Python library behavior.
 
 **To Reproduce**
 
 Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+1. Open or call '...'
+2. Use parameters '...'
+3. See error
 
 **Additional context**
 
-Add any other context about the problem here, such as a code sample.
+Add any other context, screenshots, request URLs, or error logs.

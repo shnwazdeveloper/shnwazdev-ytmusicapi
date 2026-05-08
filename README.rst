@@ -1,127 +1,109 @@
-ytmusicapi: Unofficial API for YouTube Music
-############################################
+shnwazdev-ytmusicapi
+####################
 
-.. |pypi-downloads| image:: https://img.shields.io/pypi/dm/ytmusicapi?style=flat-square
-    :alt: PyPI Downloads
-    :target: https://pypi.org/project/ytmusicapi/
+Realtime YouTube Music trending songs API and light glass website by
+`shnwazdeveloper <https://github.com/shnwazdeveloper>`__.
 
-.. |gitter| image:: https://badges.gitter.im/sigma67/ytmusicapi.svg
-   :alt: Ask questions at https://gitter.im/sigma67/ytmusicapi
-   :target: https://gitter.im/sigma67/ytmusicapi
+Live links
+----------
 
-.. |code-coverage| image:: https://img.shields.io/codecov/c/github/sigma67/ytmusicapi?style=flat-square
-    :alt: Code coverage
-    :target: https://codecov.io/gh/sigma67/ytmusicapi
+* Website: https://shnwazdev-ytmusicapi.vercel.app/
+* API docs: https://shnwazdev-ytmusicapi.vercel.app/docs.html
+* Repository: https://github.com/shnwazdeveloper/shnwazdev-ytmusicapi
 
-.. |latest-release| image:: https://img.shields.io/github/v/release/sigma67/ytmusicapi?style=flat-square
-    :alt: Latest release
-    :target: https://github.com/sigma67/ytmusicapi/releases/latest
-
-.. |commits-since-latest| image:: https://img.shields.io/github/commits-since/sigma67/ytmusicapi/latest?style=flat-square
-    :alt: Commits since latest release
-    :target: https://github.com/sigma67/ytmusicapi/commits
-
-
-|pypi-downloads| |gitter| |code-coverage| |latest-release| |commits-since-latest|
-
-ytmusicapi is a Python 3 library to send requests to the YouTube Music API.
-It emulates YouTube Music web client requests using the user's cookie data for authentication.
-This shnwazdev fork adds a realtime trending songs endpoint and a Vercel-hosted website.
-
-.. features
-
-Features
---------
-
-| **Browsing**:
-
-* search (including all filters) and suggestions
-* get artist information and releases (songs, videos, albums, singles, related artists)
-* get user information (videos, playlists)
-* get albums
-* get song metadata
-* get watch playlists (next songs when you press play/radio/shuffle in YouTube Music)
-* get song lyrics
-
-| **Exploring music**:
-
-* get moods and genres playlists
-* get latest charts (globally and per country)
-* get current trending songs from the YouTube Music charts feed
-
-| **Library management**:
-
-* get library contents: playlists, songs, artists, albums and subscriptions, podcasts, channels
-* add/remove library content: rate songs, albums and playlists, subscribe/unsubscribe artists
-* get and modify play history
-
-| **Playlists**:
-
-* create and delete playlists
-* modify playlists: edit metadata, add/move/remove tracks
-* get playlist contents
-* get playlist suggestions
-
-| **Podcasts**:
-
-* get podcasts
-* get episodes
-* get channels
-* get episodes playlists
-
-| **Uploads**:
-
-* upload songs and remove them again
-* list uploaded songs, artists and albums
-
-| **Localization**:
-
-* all regions are supported (see `locations FAQ <https://ytmusicapi.readthedocs.io/en/stable/faq.html#which-values-can-i-use-for-locations>`__
-* 16 languages are supported (see `languages FAQ <https://ytmusicapi.readthedocs.io/en/stable/faq.html#which-values-can-i-use-for-languages>`__
-
-
-If you find something missing or broken,
-check the `FAQ <https://ytmusicapi.readthedocs.io/en/stable/faq.html>`__ or
-feel free to create an `issue <https://github.com/sigma67/ytmusicapi/issues/new/choose>`__.
-
-Requirements
-------------
-
-- Python 3.10 or higher - https://www.python.org
-
-Setup
+About
 -----
 
-See the `Documentation <https://ytmusicapi.readthedocs.io/en/stable/usage.html>`_ for detailed instructions
+``shnwazdev-ytmusicapi`` is a maintained fork of
+`sigma67/ytmusicapi <https://github.com/sigma67/ytmusicapi>`__ with a Vercel-ready
+website and public JSON endpoints for realtime YouTube Music data.
 
-Usage
+The project keeps the original Python ``ytmusicapi`` library behavior, then adds
+the shnwazdev API layer, uncapped endpoint defaults, realtime trending songs, and
+a clean light glass UI.
+
+What this fork adds
+-------------------
+
+* Realtime YouTube Music trending songs endpoint.
+* Light theme landing page with glass-effect CSS and UI motion.
+* Public API docs page.
+* Single Vercel function dispatcher for all friendly API routes.
+* No app-level default item cap on search, trending, playlist, and artist-album routes.
+* GitHub docs and policies maintained for the shnwazdeveloper repo.
+
+Public API
+----------
+
+All routes return JSON. Successful responses include ``ok``, ``endpoint``, and
+``updatedAt``.
+
+.. code-block:: text
+
+    GET /api/trending?country=IN
+    GET /api/search?q=arijit%20singh&filter=songs
+    GET /api/suggestions?q=alone
+    GET /api/charts?country=IN
+    GET /api/playlist?id=PLAYLIST_ID
+    GET /api/song?id=VIDEO_ID
+    GET /api/song_related?id=BROWSE_ID
+    GET /api/album?id=BROWSE_ID
+    GET /api/album_browse_id?id=AUDIO_PLAYLIST_ID
+    GET /api/artist?id=CHANNEL_ID
+    GET /api/artist_albums?id=CHANNEL_ID&params=PARAMS_TOKEN
+    GET /api/lyrics?id=LYRICS_BROWSE_ID
+    GET /api/moods
+    GET /api/mood_playlists?params=PARAMS_TOKEN
+    GET /api/explore
+    GET /api/endpoints
+    GET /api/ytmusic?method=search&q=arijit%20singh&filter=songs
+
+Limits
 ------
-.. code-block:: python
 
-    from ytmusicapi import YTMusic
+This fork removes the app-level default item cap for the public API routes where
+the underlying YouTube Music continuation data is available. You can still pass
+``limit=NUMBER`` when you intentionally want a smaller response.
 
-    yt = YTMusic('oauth.json')
-    playlistId = yt.create_playlist('test', 'test description')
-    search_results = yt.search('Oasis Wonderwall')
-    yt.add_playlist_items(playlistId, [search_results[0]['videoId']])
+Very large requests are still bounded by YouTube Music availability, network
+conditions, and the Vercel function execution window.
 
-The `tests <https://github.com/sigma67/ytmusicapi/blob/main/tests/>`_ are also a great source of usage examples.
+Local development
+-----------------
 
-Realtime website
-----------------
+Install dependencies and run the local website/API server:
 
-This fork includes a Vercel-ready website and JSON endpoint for live YouTube Music trending songs.
+.. code-block:: powershell
 
-* ``/api/trending?country=IN`` returns the full current trending song feed.
-* ``/api/search?q=arijit%20singh&filter=songs`` returns uncapped filtered search results.
-* ``/api/ytmusic?method=search&q=arijit%20singh&filter=songs`` provides a generic endpoint dispatcher.
-* ``docs.html`` lists the public endpoints and examples.
-* ``index.html`` renders a clean glass interface with region filtering, full-list search, and live refresh.
+    .\.venv\Scripts\python.exe -m pip install -e .
+    .\.venv\Scripts\python.exe dev_server.py
 
-.. end-features
+Then open:
 
-Contributing
-------------
+.. code-block:: text
 
-Pull requests are welcome. There are still some features that are not yet implemented.
-Please, refer to `CONTRIBUTING.rst <https://github.com/sigma67/ytmusicapi/blob/main/CONTRIBUTING.rst>`_ for guidance.
+    http://127.0.0.1:3000/
+    http://127.0.0.1:3000/docs.html
+
+Useful checks:
+
+.. code-block:: powershell
+
+    node --check app.js
+    .\.venv\Scripts\python.exe -m ruff check ytmusic_endpoint.py dev_server.py api
+    .\.venv\Scripts\python.exe -m pytest tests\mixins\test_explore.py -k get_trending_songs -q
+
+Repository resources
+--------------------
+
+* `Contributing <CONTRIBUTING.rst>`__
+* `Security policy <SECURITY.md>`__
+* `MIT license <LICENSE>`__
+
+Credits
+-------
+
+The core Python library is based on the excellent open source
+`ytmusicapi <https://github.com/sigma67/ytmusicapi>`__ project. The realtime API,
+Vercel website, endpoint docs, and light landing page are maintained in this fork
+by `shnwazdeveloper <https://github.com/shnwazdeveloper>`__.

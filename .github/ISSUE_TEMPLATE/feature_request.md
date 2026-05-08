@@ -2,21 +2,21 @@
 name: Feature request
 about: Suggest an idea for this project
 title: ''
-labels: ''
-assignees: ''
+labels: enhancement
+assignees: shnwazdeveloper
 
 ---
 
-# Hello and thanks for using ytmusicapi! Please fill out the issue template below. Issues not following this template will be closed without comment. If you have a question only, please use GitHub discussions or gitter (linked in README).
-~~~~~~~~~~~~~
+# Thanks for using shnwazdev-ytmusicapi.
+
 **Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+A clear and concise description of the problem.
 
 **Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+A clear and concise description of what you want to happen for the website, docs, or API endpoints.
 
 **Describe alternatives you've considered**
 A clear and concise description of any alternative solutions or features you've considered.
 
 **Additional context**
-Add any other context or screenshots about the feature request here.
+Add any other context, endpoint examples, or screenshots here.
