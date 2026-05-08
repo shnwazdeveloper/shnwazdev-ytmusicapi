@@ -15,9 +15,9 @@ dynamic = ["version", "readme"]
 ytmusicapi = "ytmusicapi.setup:main"
 
 [project.urls]
-homepage = "https://github.com/sigma67/ytmusicapi"
+homepage = "https://github.com/shnwazdeveloper/shnwazdev-ytmusicapi"
 documentation = "https://ytmusicapi.readthedocs.io"
-repository = "https://github.com/sigma67/ytmusicapi"
+repository = "https://github.com/shnwazdeveloper/shnwazdev-ytmusicapi"
 
 [build-system]
 requires = ["setuptools>=65", "setuptools_scm[toml]>=7"]
@@ -27,9 +27,13 @@ build-backend = "setuptools.build_meta"
 readme = { file = ["README.rst"] }
 
 [tool.setuptools_scm]
+fallback_version = "0.0.0"
 
 [tool.setuptools]
 include-package-data = false
+
+[tool.setuptools.packages.find]
+include = ["ytmusicapi*"]
 
 [tool.setuptools.package-data]
 "*" = ["**.rst", "**.py", "**.mo"]

@@ -1,3 +1,4 @@
+from ytmusicapi.exceptions import YTMusicUserError
 from ytmusicapi.mixins._protocol import MixinProtocol
 from ytmusicapi.parsers.explore import *
 from ytmusicapi.type_alias import JsonDict, JsonList
@@ -86,6 +87,28 @@ class ExploreMixin(MixinProtocol):
                 playlists += parse_content_list(results, parse_playlist)
 
         return playlists
+
+    def get_trending_songs(self, limit: int | None = 20) -> JsonDict:
+        """
+        Get the current YouTube Music trending songs feed.
+
+        This is a focused wrapper around :py:func:`get_explore` that returns the
+        live ``trending`` playlist and filters out podcast episodes.
+
+        :param limit: Optional maximum number of songs to return. Default: 20.
+        :return: Dictionary containing the trending playlist id and song items.
+
+        """
+        if limit is not None and limit < 1:
+            raise YTMusicUserError("Limit must be a positive integer")
+
+        trending = self.get_explore().get("trending", {"playlist": None, "items": []})
+        items = [item.copy() for item in trending.get("items", []) if "podcast" not in item]
+
+        if limit is not None:
+            items = items[:limit]
+
+        return {"playlist": trending.get("playlist"), "items": items}
 
     def get_explore(self) -> JsonDict:
         """

@@ -7,6 +7,17 @@ class TestExplore:
         playlists = yt.get_mood_playlists(categories[cat][0]["params"])
         assert len(playlists) > 0
 
+    def test_get_trending_songs(self, yt):
+        trending = yt.get_trending_songs(limit=5)
+
+        assert trending["playlist"]
+        assert 0 < len(trending["items"]) <= 5
+
+        for item in trending["items"]:
+            assert item["videoId"], item
+            assert item["videoType"], item
+            assert "podcast" not in item, item
+
     def test_get_explore(self, yt, yt_oauth):
         assert len(yt.get_explore()) >= 4
 

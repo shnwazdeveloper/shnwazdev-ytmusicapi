@@ -14,5 +14,10 @@ build
 dist
 .pdm-python
 .venv
+.vercel
+.vercel-shims
 *.log
+*.pid
 *.xml
+
+.vercel

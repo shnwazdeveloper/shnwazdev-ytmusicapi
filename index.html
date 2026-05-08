@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Realtime YouTube Music trending songs powered by shnwazdev-ytmusicapi."
+    />
+    <title>shnwazdev-ytmusicapi</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar glass-panel">
+        <a class="brand" href="/" aria-label="shnwazdev ytmusicapi home">
+          <span class="brand-mark">YT</span>
+          <span>
+            <span class="brand-title">shnwazdev-ytmusicapi</span>
+            <span class="brand-subtitle">Realtime YouTube Music trends</span>
+          </span>
+        </a>
+
+        <form class="toolbar" id="controls">
+          <label class="field">
+            <span>Region</span>
+            <select id="country" name="country">
+              <option value="IN">India</option>
+              <option value="GLOBAL">Global</option>
+              <option value="US">United States</option>
+              <option value="GB">United Kingdom</option>
+              <option value="JP">Japan</option>
+              <option value="KR">South Korea</option>
+              <option value="BR">Brazil</option>
+              <option value="DE">Germany</option>
+            </select>
+          </label>
+
+          <label class="field search-field">
+            <span>Filter</span>
+            <input id="search" type="search" autocomplete="off" placeholder="Song or artist" />
+          </label>
+
+          <button class="refresh-button" id="refresh" type="submit">
+            <span class="refresh-icon" aria-hidden="true"></span>
+            <span>Refresh</span>
+          </button>
+        </form>
+      </header>
+
+      <section class="hero-grid">
+        <article class="now-card glass-panel" aria-labelledby="now-title">
+          <div class="now-copy">
+            <p class="eyebrow">Live chart leader</p>
+            <h1 id="now-title">Realtime YouTube Music Trending Songs</h1>
+            <p class="now-artists" id="now-artists">Loading live songs...</p>
+
+            <div class="now-actions">
+              <a class="listen-link" id="listen-link" href="https://music.youtube.com" target="_blank" rel="noreferrer">
+                Open track
+              </a>
+              <div class="motion-bars" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cover-frame">
+            <img id="now-cover" alt="" />
+            <div class="cover-fallback" id="cover-fallback">YT</div>
+          </div>
+        </article>
+
+        <aside class="stats-panel glass-panel" aria-label="Trending feed status">
+          <div class="status-row">
+            <span class="pulse-dot" aria-hidden="true"></span>
+            <span id="status" aria-live="polite">Connecting</span>
+          </div>
+          <dl class="stats-grid">
+            <div>
+              <dt>Songs</dt>
+              <dd id="song-count">--</dd>
+            </div>
+            <div>
+              <dt>Region</dt>
+              <dd id="region-label">--</dd>
+            </div>
+            <div>
+              <dt>Updated</dt>
+              <dd id="updated-at">--</dd>
+            </div>
+            <div>
+              <dt>Playlist</dt>
+              <dd id="playlist-id">--</dd>
+            </div>
+          </dl>
+        </aside>
+      </section>
+
+      <section class="list-shell glass-panel" aria-labelledby="songs-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Trending now</p>
+            <h2 id="songs-title">Songs</h2>
+          </div>
+          <p class="result-note" id="result-note">Fresh from YouTube Music</p>
+        </div>
+
+        <div class="song-list" id="song-list" aria-live="polite"></div>
+        <div class="empty-state" id="empty-state" hidden>No matching songs.</div>
+      </section>
+    </main>
+
+    <template id="song-template">
+      <article class="song-card">
+        <span class="rank"></span>
+        <img class="song-cover" alt="" loading="lazy" />
+        <div class="song-meta">
+          <h3></h3>
+          <p></p>
+        </div>
+        <span class="views"></span>
+        <a class="song-link" target="_blank" rel="noreferrer">Listen</a>
+      </article>
+    </template>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>

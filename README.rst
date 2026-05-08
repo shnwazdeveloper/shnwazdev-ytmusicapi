@@ -26,6 +26,7 @@ ytmusicapi: Unofficial API for YouTube Music
 
 ytmusicapi is a Python 3 library to send requests to the YouTube Music API.
 It emulates YouTube Music web client requests using the user's cookie data for authentication.
+This shnwazdev fork adds a realtime trending songs endpoint and a Vercel-hosted website.
 
 .. features
 
@@ -46,6 +47,7 @@ Features
 
 * get moods and genres playlists
 * get latest charts (globally and per country)
+* get current trending songs from the YouTube Music explore feed
 
 | **Library management**:
 
@@ -104,6 +106,14 @@ Usage
     yt.add_playlist_items(playlistId, [search_results[0]['videoId']])
 
 The `tests <https://github.com/sigma67/ytmusicapi/blob/main/tests/>`_ are also a great source of usage examples.
+
+Realtime website
+----------------
+
+This fork includes a Vercel-ready website and JSON endpoint for live YouTube Music trending songs.
+
+* ``/api/trending?country=IN&limit=24`` returns the current trending song feed.
+* ``index.html`` renders a clean glass interface with region filtering and live refresh.
 
 .. end-features
 

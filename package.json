@@ -1,0 +1,9 @@
+{
+  "name": "shnwazdev-ytmusicapi",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "python dev_server.py",
+    "deploy": "vercel deploy --prod"
+  }
+}
