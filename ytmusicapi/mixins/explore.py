@@ -88,27 +88,43 @@ class ExploreMixin(MixinProtocol):
 
         return playlists
 
-    def get_trending_songs(self, limit: int | None = 20) -> JsonDict:
+    def get_trending_songs(self, country: str = "ZZ", limit: int | None = 20) -> JsonDict:
         """
         Get the current YouTube Music trending songs feed.
 
-        This is a focused wrapper around :py:func:`get_explore` that returns the
-        live ``trending`` playlist and filters out podcast episodes.
+        This is a focused wrapper around :py:func:`get_charts` that returns the
+        live trending songs playlist for a country.
 
+        :param country: ISO 3166-1 Alpha-2 country code. Default: ``ZZ`` = Global.
         :param limit: Optional maximum number of songs to return. Default: 20.
-        :return: Dictionary containing the trending playlist id and song items.
+        :return: Dictionary containing the trending playlist id, title, and song items.
 
         """
         if limit is not None and limit < 1:
             raise YTMusicUserError("Limit must be a positive integer")
 
-        trending = self.get_explore().get("trending", {"playlist": None, "items": []})
-        items = [item.copy() for item in trending.get("items", []) if "podcast" not in item]
+        charts = self.get_charts(country=country)
+        playlists = charts.get("daily") or charts.get("videos") or []
+        trending_playlist = next(
+            (playlist for playlist in playlists if playlist.get("title", "").startswith("Trending")),
+            playlists[0] if playlists else None,
+        )
+
+        if trending_playlist is None:
+            trending = self.get_explore().get("trending", {"playlist": None, "items": []})
+            items = [item.copy() for item in trending.get("items", []) if "podcast" not in item]
+            playlist_id = trending.get("playlist")
+            title = None
+        else:
+            playlist_id = trending_playlist["playlistId"]
+            title = trending_playlist.get("title")
+            playlist = self.get_playlist(playlist_id, limit=limit)
+            items = [item.copy() for item in playlist.get("tracks", [])]
 
         if limit is not None:
             items = items[:limit]
 
-        return {"playlist": trending.get("playlist"), "items": items}
+        return {"playlist": playlist_id, "title": title, "items": items}
 
     def get_explore(self) -> JsonDict:
         """

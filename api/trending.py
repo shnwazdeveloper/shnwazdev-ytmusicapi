@@ -97,8 +97,8 @@ def _load_trending(country: str, limit: int) -> dict:
     session = requests.Session()
     session.request = partial(session.request, timeout=20)
 
-    ytmusic = YTMusic(location=country, requests_session=session)
-    trending = ytmusic.get_trending_songs(limit=limit)
+    ytmusic = YTMusic(requests_session=session)
+    trending = ytmusic.get_trending_songs(country=country or "ZZ", limit=limit)
     items = [_normalize_song(item, index) for index, item in enumerate(trending.get("items", []), start=1)]
     country_key = country or "GLOBAL"
 
@@ -109,6 +109,7 @@ def _load_trending(country: str, limit: int) -> dict:
         "country": country_key,
         "countryLabel": COUNTRY_LABELS.get(country_key, country_key),
         "playlist": trending.get("playlist"),
+        "playlistTitle": trending.get("title"),
         "count": len(items),
         "updatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "items": items,
