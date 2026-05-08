@@ -26,6 +26,14 @@
       "destination": "/api/ytmusic?method=charts"
     },
     {
+      "source": "/api/new_releases",
+      "destination": "/api/ytmusic?method=new_releases"
+    },
+    {
+      "source": "/new_releases",
+      "destination": "/api/ytmusic?method=new_releases"
+    },
+    {
       "source": "/api/playlist",
       "destination": "/api/ytmusic?method=playlist"
     },

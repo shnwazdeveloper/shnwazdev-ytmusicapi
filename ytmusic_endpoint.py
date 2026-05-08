@@ -63,6 +63,13 @@ ENDPOINTS = [
         "example": "/api/charts?country=IN",
     },
     {
+        "name": "new_releases",
+        "path": "/api/new_releases",
+        "params": "limit",
+        "description": "Latest album, EP, and single releases from YouTube Music. Unlimited by default.",
+        "example": "/api/new_releases",
+    },
+    {
         "name": "playlist",
         "path": "/api/playlist",
         "params": "id",
@@ -276,10 +283,34 @@ def _load_trending(query: dict[str, list[str]]) -> dict:
     return payload
 
 
+def _load_new_releases(query: dict[str, list[str]]) -> dict:
+    limit = parse_limit(_first(query, "limit"))
+    cache_key = _cache_key("new_releases", query)
+    cached = _CACHE.get(cache_key)
+    if cached and (time.monotonic() - cached[0]) < CACHE_TTL_SECONDS:
+        payload = cached[1].copy()
+        payload["cached"] = True
+        return payload
+
+    releases = _make_ytmusic().get_explore().get("new_releases", [])
+    if limit is not None:
+        releases = releases[:limit]
+
+    payload = _envelope(
+        "new_releases",
+        releases,
+        {"cached": False, "source": "ytmusicapi.get_explore.new_releases"},
+    )
+    _CACHE[cache_key] = (time.monotonic(), payload)
+    return payload
+
+
 def execute_endpoint(endpoint: str, query: dict[str, list[str]]) -> dict:
     endpoint = endpoint.strip().lower().replace("-", "_")
     if endpoint == "trending":
         return _load_trending(query)
+    if endpoint == "new_releases":
+        return _load_new_releases(query)
     if endpoint == "endpoints":
         return _envelope("endpoints", ENDPOINTS)
 

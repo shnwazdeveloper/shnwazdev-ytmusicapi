@@ -26,6 +26,7 @@ What this fork adds
 -------------------
 
 * Realtime YouTube Music trending songs endpoint.
+* New releases endpoint for latest albums, EPs, and singles.
 * Light theme landing page with glass-effect CSS and UI motion.
 * Public API docs page.
 * Single Vercel function dispatcher for all friendly API routes.
@@ -44,6 +45,8 @@ All routes return JSON. Successful responses include ``ok``, ``endpoint``, and
     GET /api/search?q=arijit%20singh&filter=songs
     GET /api/suggestions?q=alone
     GET /api/charts?country=IN
+    GET /api/new_releases
+    GET /new_releases
     GET /api/playlist?id=PLAYLIST_ID
     GET /api/song?id=VIDEO_ID
     GET /api/song_related?id=BROWSE_ID

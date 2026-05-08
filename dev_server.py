@@ -7,6 +7,8 @@ from urllib.parse import parse_qs, urlparse
 
 from ytmusic_endpoint import execute_endpoint, json_default
 
+ROOT_API_ENDPOINTS = {"new_releases"}
+
 
 class DevHandler(SimpleHTTPRequestHandler):
     def _send_json(self, status: int, payload: dict) -> None:
@@ -22,7 +24,8 @@ class DevHandler(SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_OPTIONS(self) -> None:
-        if self.path.startswith("/api/"):
+        parsed_url = urlparse(self.path)
+        if parsed_url.path.startswith("/api/") or parsed_url.path.strip("/") in ROOT_API_ENDPOINTS:
             self._send_json(204, {})
             return
 
@@ -30,9 +33,13 @@ class DevHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self) -> None:
         parsed_url = urlparse(self.path)
-        if parsed_url.path.startswith("/api/"):
+        root_endpoint = parsed_url.path.strip("/")
+        if parsed_url.path.startswith("/api/") or root_endpoint in ROOT_API_ENDPOINTS:
             query = parse_qs(parsed_url.query)
-            endpoint = parsed_url.path.removeprefix("/api/").strip("/") or "ytmusic"
+            if root_endpoint in ROOT_API_ENDPOINTS:
+                endpoint = root_endpoint
+            else:
+                endpoint = parsed_url.path.removeprefix("/api/").strip("/") or "ytmusic"
 
             try:
                 self._send_json(200, execute_endpoint(endpoint, query))
