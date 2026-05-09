@@ -7,7 +7,7 @@ from urllib.parse import parse_qs, urlparse
 
 from ytmusic_endpoint import execute_endpoint, json_default
 
-ROOT_API_ENDPOINTS = {"new_releases"}
+ROOT_API_ENDPOINTS = {"new_releases", "music_premium/musicfeed"}
 
 
 class DevHandler(SimpleHTTPRequestHandler):
@@ -40,6 +40,8 @@ class DevHandler(SimpleHTTPRequestHandler):
                 endpoint = root_endpoint
             else:
                 endpoint = parsed_url.path.removeprefix("/api/").strip("/") or "ytmusic"
+                if endpoint == "ytmusic":
+                    endpoint = query.get("method", query.get("endpoint", ["ytmusic"]))[0]
 
             try:
                 self._send_json(200, execute_endpoint(endpoint, query))

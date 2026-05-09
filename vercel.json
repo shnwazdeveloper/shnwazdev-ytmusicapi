@@ -34,6 +34,14 @@
       "destination": "/api/ytmusic?method=new_releases"
     },
     {
+      "source": "/api/music_premium/musicfeed",
+      "destination": "/api/ytmusic?method=music_premium_musicfeed"
+    },
+    {
+      "source": "/music_premium/musicfeed",
+      "destination": "/api/ytmusic?method=music_premium_musicfeed"
+    },
+    {
       "source": "/api/playlist",
       "destination": "/api/ytmusic?method=playlist"
     },

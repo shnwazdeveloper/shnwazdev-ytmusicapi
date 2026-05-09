@@ -70,6 +70,13 @@ ENDPOINTS = [
         "example": "/api/new_releases",
     },
     {
+        "name": "music_premium_musicfeed",
+        "path": "/music_premium/musicfeed",
+        "params": "limit",
+        "description": "Free public YouTube Music home feed rows. Unlimited by default.",
+        "example": "/music_premium/musicfeed",
+    },
+    {
         "name": "playlist",
         "path": "/api/playlist",
         "params": "id",
@@ -305,12 +312,38 @@ def _load_new_releases(query: dict[str, list[str]]) -> dict:
     return payload
 
 
+def _load_musicfeed(query: dict[str, list[str]]) -> dict:
+    limit = parse_limit(_first(query, "limit"))
+    cache_key = _cache_key("music_premium_musicfeed", query)
+    cached = _CACHE.get(cache_key)
+    if cached and (time.monotonic() - cached[0]) < CACHE_TTL_SECONDS:
+        payload = cached[1].copy()
+        payload["cached"] = True
+        return payload
+
+    feed = _make_ytmusic().get_home(limit=limit)
+    payload = _envelope(
+        "music_premium_musicfeed",
+        feed,
+        {
+            "cached": False,
+            "access": "free_public",
+            "source": "ytmusicapi.get_home",
+            "aliases": ["/music_premium/musicfeed", "/api/music_premium/musicfeed"],
+        },
+    )
+    _CACHE[cache_key] = (time.monotonic(), payload)
+    return payload
+
+
 def execute_endpoint(endpoint: str, query: dict[str, list[str]]) -> dict:
-    endpoint = endpoint.strip().lower().replace("-", "_")
+    endpoint = endpoint.strip().lower().replace("-", "_").replace("/", "_")
     if endpoint == "trending":
         return _load_trending(query)
     if endpoint == "new_releases":
         return _load_new_releases(query)
+    if endpoint in {"music_premium_musicfeed", "musicfeed"}:
+        return _load_musicfeed(query)
     if endpoint == "endpoints":
         return _envelope("endpoints", ENDPOINTS)
 

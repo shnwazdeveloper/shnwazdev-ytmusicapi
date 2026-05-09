@@ -27,13 +27,13 @@ from ._utils import get_datestamp
 
 
 class BrowsingMixin(MixinProtocol):
-    def get_home(self, limit: int = 3) -> JsonList:
+    def get_home(self, limit: int | None = 3) -> JsonList:
         """
         Get the home page.
         The home page is structured as titled rows, returning 3 rows of music suggestions at a time.
         Content varies and may contain artist, album, song or playlist suggestions, sometimes mixed within the same row
 
-        :param limit: Number of rows on the home page to return
+        :param limit: Number of rows on the home page to return. ``None`` retrieves them all.
         :return: List of dictionaries keyed with 'title' text and 'contents' list
 
         Example list::
@@ -128,7 +128,7 @@ class BrowsingMixin(MixinProtocol):
                 get_continuations(
                     section_list,
                     "sectionListContinuation",
-                    limit - len(home),
+                    None if limit is None else limit - len(home),
                     request_func,
                     parse_mixed_content,
                 )

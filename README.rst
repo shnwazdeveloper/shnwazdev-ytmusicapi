@@ -27,6 +27,7 @@ What this fork adds
 
 * Realtime YouTube Music trending songs endpoint.
 * New releases endpoint for latest albums, EPs, and singles.
+* Free public ``/music_premium/musicfeed`` endpoint for YouTube Music feed rows.
 * Light theme landing page with glass-effect CSS and UI motion.
 * Public API docs page.
 * Single Vercel function dispatcher for all friendly API routes.
@@ -47,6 +48,8 @@ All routes return JSON. Successful responses include ``ok``, ``endpoint``, and
     GET /api/charts?country=IN
     GET /api/new_releases
     GET /new_releases
+    GET /api/music_premium/musicfeed
+    GET /music_premium/musicfeed
     GET /api/playlist?id=PLAYLIST_ID
     GET /api/song?id=VIDEO_ID
     GET /api/song_related?id=BROWSE_ID
