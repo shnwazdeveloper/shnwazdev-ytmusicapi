@@ -5,10 +5,12 @@ on:
     branches:
       - main
     paths:
+      - .github/workflows/coverage.yml
       - ytmusicapi/**
       - tests/**
   pull_request_target:
     paths:
+      - .github/workflows/coverage.yml
       - ytmusicapi/**
       - tests/**
 
@@ -25,6 +27,11 @@ jobs:
     environment: ${{ github.event_name != 'push' && 'coverage' || '' }}
     permissions:
       contents: read
+    env:
+      OAUTH_JSON: ${{ secrets.OAUTH_JSON }}
+      HEADERS_AUTH: ${{ secrets.HEADERS_AUTH }}
+      TEST_CFG: ${{ secrets.TEST_CFG }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
@@ -39,31 +46,32 @@ jobs:
     - name: Setup PDM
       uses: pdm-project/setup-pdm@94a823180e06fcde4ad29308721954a521c96ed0  # v4.4
     - name: Write OAuth credentials
-      env:
-        OAUTH_JSON: ${{ secrets.OAUTH_JSON }}
+      if: ${{ env.OAUTH_JSON != '' }}
       run: printf '%s\n' "$OAUTH_JSON" > tests/oauth.json
     - name: Install dependencies
       run: pdm install
     - name: Generate coverage report
-      env:
-        HEADERS_AUTH: ${{ secrets.HEADERS_AUTH }}
-        TEST_CFG: ${{ secrets.TEST_CFG }}
       run: |
         curl -fsSL -o tests/test.mp3 https://www.kozco.com/tech/piano2-CoolEdit.mp3
-        cat <<< "$HEADERS_AUTH" > tests/browser.json
-        cat <<< "$TEST_CFG" > tests/test.cfg
-        pdm run pytest --junitxml=test-results.xml
+        if [ -n "$HEADERS_AUTH" ] && [ -n "$TEST_CFG" ]; then
+          cat <<< "$HEADERS_AUTH" > tests/browser.json
+          cat <<< "$TEST_CFG" > tests/test.cfg
+          pdm run pytest --junitxml=test-results.xml
+        else
+          echo "::notice::Auth test secrets are not configured; running public unauthenticated coverage smoke tests."
+          pdm run pytest tests/mixins/test_explore.py -k get_trending_songs --junitxml=test-results.xml
+        fi
         pdm run coverage xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2  # v6.0.0
-      if: ${{ !cancelled() }}
+      if: ${{ !cancelled() && env.CODECOV_TOKEN != '' }}
       with:
         flags: unittests
         fail_ci_if_error: true
-        token: ${{ secrets.CODECOV_TOKEN }}
+        token: ${{ env.CODECOV_TOKEN }}
     - name: Upload test results to Codecov
-      if: ${{ !cancelled() }}
+      if: ${{ !cancelled() && env.CODECOV_TOKEN != '' }}
       uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3  # v1.2.1
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
+        token: ${{ env.CODECOV_TOKEN }}
         files: test-results.xml
